@@ -8,8 +8,8 @@
     <meta name="description" content="Free personal budget management app to help you track expenses, set financial goals, and receive budget alerts">
     <meta name="keywords" content="personal budget, budget management, expense tracking, financial planning">
     <meta name="author" content="Fabio Nolasco">
-    <link rel="stylesheet" href="/reset.css">
-    <link rel="stylesheet" href="/main.css">
+    <link rel="stylesheet" href="./reset.css">
+    <link rel="stylesheet" href="./main.css">
 </head>
 <body>
     <!-- This is an A11Y Change -->
@@ -281,7 +281,7 @@
         }
 
         function getBudget() {
-            return axios.get('/budget')
+            return axios.get('http://localhost:3000/budget')
                 .then(function (res) {
                     console.log(res.data);
                     for (var i = 0; i < res.data.myBudget.length; i++) {
@@ -289,7 +289,7 @@
                         dataSource.labels[i] = res.data.myBudget[i].title;
                     }
                     createChart();
-                    createD3Chart(res.data); // Add D3 chart creation
+                    createD3Chart(res.data);
                 })
                 .catch(function(error) {
                     console.error('Error fetching budget:', error);

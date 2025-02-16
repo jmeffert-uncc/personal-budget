@@ -1,0 +1,305 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Personal Budget</title>
+    <!-- This is an SEO Change -->
+    <meta name="description" content="Free personal budget management app to help you track expenses, set financial goals, and receive budget alerts">
+    <meta name="keywords" content="personal budget, budget management, expense tracking, financial planning">
+    <meta name="author" content="Fabio Nolasco">
+    <link rel="stylesheet" href="/reset.css">
+    <link rel="stylesheet" href="/main.css">
+</head>
+<body>
+    <!-- This is an A11Y Change -->
+    <a href="#main-content" class="skip-link">Skip to main content</a>
+
+    <!-- This is an SEO Change -->
+    <header>
+        <!-- This is an A11Y Change -->
+        <nav class="menu" aria-label="Main navigation">
+            <ul role="menubar">
+                <li role="none"><a href="/" role="menuitem">Homepage</a></li>
+                <li role="none"><a href="/about.html" role="menuitem">About</a></li>
+                <li role="none"><a href="/login.html" role="menuitem">Login</a></li>
+                <li role="none"><a href="https://google.com" role="menuitem">Google</a></li>
+            </ul>
+        </nav>
+    </header>
+
+    <!-- This is an A11Y Change -->
+    <main id="main-content" tabindex="-1">
+        <!-- This is a Semantic HTML Change -->
+        <section class="hero" role="banner">
+            <h1>Personal Budget</h1>
+            <h2>A personal-budget management app</h2>
+        </section>
+
+        <!-- This is a Semantic HTML Change -->
+        <section class="container center">
+            <div class="page-area">
+                <!-- This is a Semantic HTML Change -->
+                <article class="text-box">
+                    <h2>Stay on track</h2>
+                    <p>
+                        Do you know where you are spending your money? If you really stop to track it down,
+                        you would get surprised! Proper budget management depends on real data... and this
+                        app will help you with that!
+                    </p>
+                </article>
+        
+                <article class="text-box">
+                    <h2>Alerts</h2>
+                    <p>
+                        What if your clothing budget ended? You will get an alert. The goal is to never go over the budget.
+                    </p>
+                </article>
+        
+                <article class="text-box">
+                    <h2>Results</h2>
+                    <p>
+                        People who stick to a financial plan, budgeting every expense, get out of debt faster!
+                        Also, they to live happier lives... since they expend without guilt or fear... 
+                        because they know it is all good and accounted for.
+                    </p>
+                </article>
+        
+                <article class="text-box">
+                    <h2>Free</h2>
+                    <p>
+                        This app is free!!! And you are the only one holding your data!
+                    </p>
+                </article>
+        
+                <article class="text-box">
+                    <h2>Stay on track</h2>
+                    <p>
+                        Do you know where you are spending your money? If you really stop to track it down,
+                        you would get surprised! Proper budget management depends on real data... and this
+                        app will help you with that!
+                    </p>
+                </article>
+        
+                <article class="text-box">
+                    <h2>Alerts</h2>
+                    <p>
+                        What if your clothing budget ended? You will get an alert. The goal is to never go over the budget.
+                    </p>
+                </article>
+
+                <!-- Wrap charts in a container -->
+                <div class="charts-container">
+                    <div class="text-box chart-box">
+                        <h1>Chart.js</h1>
+                        <p>
+                            <canvas id="myChart" width="400" height="400"></canvas>
+                        </p>
+                    </div>
+
+                    <div class="text-box chart-box">
+                        <h1>D3.js</h1>
+                        <p>
+                            <div id="d3Chart"></div>
+                        </p>
+                    </div>
+                </div>
+
+                <article class="text-box">
+                    <h2>Results</h2>
+                    <p>
+                        People who stick to a financial plan, budgeting every expense, get out of debt faster!
+                        Also, they to live happier lives... since they expend without guilt or fear... 
+                        because they know it is all good and accounted for.
+                    </p>
+                </article>
+        
+                <article class="text-box">
+                    <h2>Free</h2>
+                    <p>
+                        This app is free!!! And you are the only one holding your data!
+                    </p>
+                </article>
+            </div>
+        </section>
+    </main>
+
+    <!-- This is an SEO Change -->
+    <footer class="bottom">
+        <div class="center">
+            All rights reserved &copy; Fabio Nolasco
+        </div>
+    </footer>
+
+    <!-- Load external libraries first -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/axios/1.7.8/axios.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/4.4.1/chart.umd.min.js"></script>
+    <script src="https://d3js.org/d3.v3.min.js"></script>
+
+    <!-- Add D3 chart styles -->
+    <style>
+        #d3Chart svg {
+            width: 100%;
+            height: 400px;
+            margin-right: 50px; /* Add margin to prevent cutting off */
+        }
+
+        path.slice {
+            stroke-width: 2px;
+        }
+
+        polyline {
+            opacity: .3;
+            stroke: black;
+            stroke-width: 2px;
+            fill: none;
+        }
+    </style>
+
+    <!-- Then load our application code -->
+    <script>
+        var dataSource = {
+            datasets: [{
+                data: [12, 20, 30],
+                backgroundColor: ['#ffcd56', '#ff6384', '#36a2eb'],
+            }],
+            labels: ['Eat out', 'Rent', 'Groceries']
+        };
+        function createChart() {
+            var ctx = document.getElementById('myChart').getContext('2d');
+            var myChart = new Chart(ctx, {
+                type: 'pie',
+                data: dataSource
+            });
+        }
+
+        // Add D3 chart creation code
+        function createD3Chart(data) {
+            // Clear previous chart if any
+            d3.select("#d3Chart").html("");
+
+            const width = 350;
+            const height = 400;
+            const margin = 80;  // Increased margin from 50 to 80
+            const radius = Math.min(width - margin * 2, height - margin * 2) / 2;
+
+            const svg = d3.select("#d3Chart")
+                .append("svg")
+                .append("g");
+
+            svg.append("g")
+                .attr("class", "slices");
+            svg.append("g")
+                .attr("class", "labels");
+            svg.append("g")
+                .attr("class", "lines");
+
+            svg.attr("transform", "translate(" + (width/2) + "," + (height/2) + ")");
+
+            const pie = d3.layout.pie()
+                .sort(null)
+                .value(d => d.value);
+
+            const arc = d3.svg.arc()
+                .outerRadius(radius * 0.8)
+                .innerRadius(radius * 0.4);
+
+            const outerArc = d3.svg.arc()
+                .innerRadius(radius * 0.9)
+                .outerRadius(radius * 0.9);
+
+            const color = d3.scale.ordinal()
+                .range(["#98abc5", "#8a89a6", "#7b6888", "#6b486b", "#a05d56", "#d0743c", "#ff8c00"]);
+
+            // Transform budget data for D3
+            const d3Data = data.myBudget.map(item => ({
+                label: item.title,
+                value: item.budget
+            }));
+
+            // Draw the chart
+            const slice = svg.select(".slices").selectAll("path.slice")
+                .data(pie(d3Data))
+                .enter()
+                .append("path")
+                .attr("class", "slice")
+                .attr("d", arc)
+                .style("fill", d => color(d.data.label));
+
+            // Add labels
+            const text = svg.select(".labels").selectAll("text")
+                .data(pie(d3Data))
+                .enter()
+                .append("text")
+                .attr("dy", ".35em")
+                .text(d => d.data.label);
+
+            function midAngle(d) {
+                return d.startAngle + (d.endAngle - d.startAngle)/2;
+            }
+
+            text.transition().duration(1000)
+                .attrTween("transform", function(d) {
+                    this._current = this._current || d;
+                    var interpolate = d3.interpolate(this._current, d);
+                    this._current = interpolate(0);
+                    return function(t) {
+                        var d2 = interpolate(t);
+                        var pos = outerArc.centroid(d2);
+                        pos[0] = radius * (midAngle(d2) < Math.PI ? 1.2 : -1.2);  // Increased multiplier from 1 to 1.2
+                        return "translate("+ pos +")";
+                    };
+                })
+                .styleTween("text-anchor", function(d){
+                    this._current = this._current || d;
+                    var interpolate = d3.interpolate(this._current, d);
+                    this._current = interpolate(0);
+                    return function(t) {
+                        var d2 = interpolate(t);
+                        return midAngle(d2) < Math.PI ? "start":"end";
+                    };
+                });
+
+            // Add polylines
+            const polyline = svg.select(".lines").selectAll("polyline")
+                .data(pie(d3Data))
+                .enter()
+                .append("polyline");
+
+            polyline.transition().duration(1000)
+                .attrTween("points", function(d){
+                    this._current = this._current || d;
+                    var interpolate = d3.interpolate(this._current, d);
+                    this._current = interpolate(0);
+                    return function(t) {
+                        var d2 = interpolate(t);
+                        var pos = outerArc.centroid(d2);
+                        pos[0] = radius * 0.95 * (midAngle(d2) < Math.PI ? 1 : -1);
+                        return [arc.centroid(d2), outerArc.centroid(d2), pos];
+                    };
+                });
+        }
+
+        function getBudget() {
+            return axios.get('/budget')
+                .then(function (res) {
+                    console.log(res.data);
+                    for (var i = 0; i < res.data.myBudget.length; i++) {
+                        dataSource.datasets[0].data[i] = res.data.myBudget[i].budget;
+                        dataSource.labels[i] = res.data.myBudget[i].title;
+                    }
+                    createChart();
+                    createD3Chart(res.data); // Add D3 chart creation
+                })
+                .catch(function(error) {
+                    console.error('Error fetching budget:', error);
+                    return data;
+                });
+        }
+
+        document.addEventListener('DOMContentLoaded', function() {
+            getBudget();
+        });
+    </script>
+</body>
+</html>
